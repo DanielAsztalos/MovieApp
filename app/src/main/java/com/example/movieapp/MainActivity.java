@@ -46,4 +46,8 @@ public class MainActivity extends FragmentActivity {
 
         transaction.commit();
     }
+
+    public void loginClicked(View view) {
+
+    }
 }
