@@ -15,6 +15,7 @@ import com.example.movieapp.R;
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends Fragment {
+    private View root;
 
 
     public RegisterFragment() {
@@ -26,7 +27,10 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        root = inflater.inflate(R.layout.fragment_register, container, false);
+        return root;
     }
+
+
 
 }

@@ -20,4 +20,47 @@ public class Movie {
 
     @ColumnInfo(name = "release_date")
     private long releaseDate;
+
+    public Movie() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPathToPhoto() {
+        return pathToPhoto;
+    }
+
+    public void setPathToPhoto(String pathToPhoto) {
+        this.pathToPhoto = pathToPhoto;
+    }
+
+    public long getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(long releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 }
