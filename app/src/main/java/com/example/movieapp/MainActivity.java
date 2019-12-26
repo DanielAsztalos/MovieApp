@@ -5,6 +5,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +30,12 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
+        if(!sharedPreferences.getString("id", "").equals("")){
+            Intent intent = new Intent(getApplicationContext(), MainSectionActivity.class);
+            startActivity(intent);
+        }
 
         Fragment newFragment = new HomeScreenFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
