@@ -85,7 +85,7 @@ public class TopMoviesAsyncTask extends AsyncTask<Integer, Void, ArrayList<Movie
                 }catch (Exception e){}
 
                 try{
-                    m.setPathToPhoto(movies.get(i).getAsJsonObject().get("backdrop_path").getAsString());
+                    m.setPathToPhoto(movies.get(i).getAsJsonObject().get("poster_path").getAsString());
                 }catch (Exception e){}
 
                 moviesOnPage.add(m);

@@ -23,6 +23,15 @@
     <string name="inCinemas">In Cinemas</string>
     <string name="favs">Favorites</string>
 
+    <string name="changePic">Change profile picture</string>
+    <string name="changePass">Change password</string>
+    <string name="changePicSuccess">Successfully changed the profile picture!</string>
+    <string name="changePicFail">Failed to change profile picture!</string>
+    <string name="changePassSuccess">Successfully changed the password!</string>
+    <string name="changePassFail">Failed to change password!</string>
+    <string name="oldPass">Old Password</string>
+    <string name="newPass">New Password</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

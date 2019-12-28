@@ -3,22 +3,18 @@ package com.example.movieapp;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.room.Room;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.movieapp.database.AppDatabase;
 import com.example.movieapp.fragments.HomeScreenFragment;
 import com.example.movieapp.fragments.LoginFragment;
 import com.example.movieapp.fragments.RegisterFragment;
-import com.example.movieapp.helpers.DatabaseTransactions;
 import com.example.movieapp.helpers.Encrypt;
 import com.example.movieapp.models.User;
 import com.example.movieapp.tasks.LoginAsyncTask;
@@ -110,7 +106,7 @@ public class MainActivity extends FragmentActivity {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(Encrypt.md5(password));
-        user.setPathToProfilePic("drawable://" + R.drawable.blank_profile_picture_973460_1280);
+        user.setPathToProfilePic("");
 
         RegisterAsyncTask task = new RegisterAsyncTask(this);
         task.execute(user);
