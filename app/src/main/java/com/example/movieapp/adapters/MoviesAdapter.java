@@ -1,17 +1,23 @@
 package com.example.movieapp.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.movieapp.MainSectionActivity;
 import com.example.movieapp.R;
+import com.example.movieapp.dialogs.DetailDialog;
 import com.example.movieapp.models.Movie;
 
 import java.util.ArrayList;
@@ -35,6 +41,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDetails(position);
+            }
+        });
         holder.tv_title.setText(mMovies.get(position).getTitle());
         String desc = mMovies.get(position).getDescription();
         if(desc.length() > 151) {
@@ -53,12 +65,22 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
     public int getItemCount() {
         return mMovies.size();
     }
+
+    private void openDetails(int position){
+        DetailDialog dialog = new DetailDialog();
+        FragmentTransaction ft = ((MainSectionActivity) mContext).getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", mMovies.get(position).getId());
+        dialog.setArguments(bundle);
+        dialog.show(ft, "DETAIL_DIALOG");
+    }
 }
 
 
 class MovieViewHolder extends RecyclerView.ViewHolder {
     TextView tv_title, tv_desc;
     ImageView iv_movie;
+    RelativeLayout layout;
 
     public MovieViewHolder(View view){
         super(view);
@@ -66,5 +88,6 @@ class MovieViewHolder extends RecyclerView.ViewHolder {
         tv_title = view.findViewById(R.id.tv_movie_title);
         tv_desc = view.findViewById(R.id.tv_movie_description);
         iv_movie = view.findViewById(R.id.img_movie);
+        layout = view.findViewById(R.id.layout_card);
     }
 }

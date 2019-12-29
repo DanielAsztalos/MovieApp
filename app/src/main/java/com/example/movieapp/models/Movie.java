@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+
 @Entity
 public class Movie {
     @PrimaryKey
@@ -20,6 +22,12 @@ public class Movie {
 
     @ColumnInfo(name = "release_date")
     private long releaseDate;
+
+    private ArrayList<Integer> imageIds;
+
+    private ArrayList<Integer> videoIds;
+
+    private ArrayList<Movie> relatedMovies;
 
     public Movie() {
     }
@@ -62,5 +70,29 @@ public class Movie {
 
     public void setReleaseDate(long releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public ArrayList<Integer> getImageIds() {
+        return imageIds;
+    }
+
+    public void setImageIds(ArrayList<Integer> imageIds) {
+        this.imageIds = imageIds;
+    }
+
+    public ArrayList<Integer> getVideoIds() {
+        return videoIds;
+    }
+
+    public void setVideoIds(ArrayList<Integer> videoIds) {
+        this.videoIds = videoIds;
+    }
+
+    public ArrayList<Movie> getRelatedMovies() {
+        return relatedMovies;
+    }
+
+    public void setRelatedMovies(ArrayList<Movie> relatedMovies) {
+        this.relatedMovies = relatedMovies;
     }
 }
