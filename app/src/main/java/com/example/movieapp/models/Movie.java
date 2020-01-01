@@ -23,9 +23,9 @@ public class Movie {
     @ColumnInfo(name = "release_date")
     private long releaseDate;
 
-    private ArrayList<Integer> imageIds;
+    private ArrayList<String> imagePaths;
 
-    private ArrayList<Integer> videoIds;
+    private ArrayList<String> videoIds;
 
     private ArrayList<Movie> relatedMovies;
 
@@ -72,19 +72,19 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public ArrayList<Integer> getImageIds() {
-        return imageIds;
+    public ArrayList<String> getImagePaths() {
+        return imagePaths;
     }
 
-    public void setImageIds(ArrayList<Integer> imageIds) {
-        this.imageIds = imageIds;
+    public void setImagePaths(ArrayList<String> imageIds) {
+        this.imagePaths = imageIds;
     }
 
-    public ArrayList<Integer> getVideoIds() {
+    public ArrayList<String> getVideoIds() {
         return videoIds;
     }
 
-    public void setVideoIds(ArrayList<Integer> videoIds) {
+    public void setVideoIds(ArrayList<String> videoIds) {
         this.videoIds = videoIds;
     }
 

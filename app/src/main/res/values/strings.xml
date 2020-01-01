@@ -32,6 +32,14 @@
     <string name="oldPass">Old Password</string>
     <string name="newPass">New Password</string>
 
+    <string name="description">Description</string>
+    <string name="images">Images</string>
+    <string name="similar">Related movies</string>
+    <string name="video">Video</string>
+
+    <string name="favSaved">Saved to favorites!</string>
+    <string name="favRemoved">Removed from favorites!</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

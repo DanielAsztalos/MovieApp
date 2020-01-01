@@ -2,6 +2,7 @@ package com.example.movieapp.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.movieapp.R;
+import com.example.movieapp.tasks.AddFavoriteAsyncTask;
+import com.example.movieapp.tasks.DetailsAsyncTask;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DetailDialog extends DialogFragment {
 
@@ -28,6 +32,10 @@ public class DetailDialog extends DialogFragment {
 
         View view = inflater.inflate(R.layout.dialog_detail, container, false);
 
+        int id = getArguments().getInt("id");
+        DetailsAsyncTask task = new DetailsAsyncTask(getContext(), getDialog());
+        task.execute(id);
+
         Toolbar toolbar = view.findViewById(R.id.toolbar_detail);
         toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -36,7 +44,15 @@ public class DetailDialog extends DialogFragment {
                 getDialog().cancel();
             }
         });
-        //toolbar.setTitle("Title");
+
+        FloatingActionButton btn = view.findViewById(R.id.fab);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddFavoriteAsyncTask task = new AddFavoriteAsyncTask(getContext(), getDialog());
+                task.execute(id);
+            }
+        });
 
         return view;
     }

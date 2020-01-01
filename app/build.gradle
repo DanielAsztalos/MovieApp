@@ -40,4 +40,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.2.0'
+    compile 'com.github.davidmigloz:youtube-android-player-api-gradle:1.2.2.1'
 }
