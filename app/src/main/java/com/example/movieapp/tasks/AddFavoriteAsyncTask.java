@@ -116,6 +116,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
             num = db.insert(FavoriteContract.FavoriteEntry.TABLE_NAME, null, values);
 
+            dbHelper.close();
             return true;
         }
         else{
@@ -124,6 +125,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
             String[] selectionArgs1 = {sharedPreferences.getString("id", ""), String.valueOf(mId)};
 
             db.delete(FavoriteContract.FavoriteEntry.TABLE_NAME, selection, selectionArgs1);
+            dbHelper.close();
             return false;
         }
 

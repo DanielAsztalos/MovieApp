@@ -10,12 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.movieapp.R;
+import com.example.movieapp.tasks.FavoritesAsyncTask;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FavoritesFragment extends Fragment {
-
+    private View rootview;
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -26,7 +27,15 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+        rootview = inflater.inflate(R.layout.fragment_favorites, container, false);
+
+        return rootview;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        FavoritesAsyncTask task = new FavoritesAsyncTask(getContext(), rootview.findViewById(R.id.rv_favorites));
+        task.execute();
+    }
 }

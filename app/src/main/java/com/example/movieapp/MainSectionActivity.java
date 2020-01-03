@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,9 +26,11 @@ import com.example.movieapp.fragments.FavoritesFragment;
 import com.example.movieapp.fragments.HomeFragment;
 import com.example.movieapp.fragments.InCinemasFragment;
 import com.example.movieapp.fragments.ProfileFragment;
+import com.example.movieapp.services.NowPlayingIntentService;
 import com.example.movieapp.tasks.ChangeProfileImageAsyncTask;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class MainSectionActivity extends FragmentActivity {
@@ -64,6 +68,20 @@ public class MainSectionActivity extends FragmentActivity {
         BottomNavigationView navigationView = findViewById(R.id.bnv_nav);
         navigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
+        boolean alarmUp = (PendingIntent.getService(this, 0,
+                new Intent(this, NowPlayingIntentService.class),
+                PendingIntent.FLAG_NO_CREATE) != null);
+
+        if(!alarmUp) {
+            Intent intent = new Intent(this, NowPlayingIntentService.class);
+            PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+            AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            alarm.setRepeating(AlarmManager.RTC, Calendar.getInstance().getTimeInMillis(), 12 * 60 * 60 * 1000,
+                    pintent);
+        }
+
+
+
     }
 
     public void loadFragment(Fragment fragment) {
@@ -85,7 +103,6 @@ public class MainSectionActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-//            List<Image> images = ImagePicker.getImages(data);
             Image image = ImagePicker.getFirstImageOrNull(data);
             if(image != null) {
                 ChangeProfileImageAsyncTask task = new ChangeProfileImageAsyncTask(this);

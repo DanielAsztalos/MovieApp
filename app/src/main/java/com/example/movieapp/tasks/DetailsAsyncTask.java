@@ -79,11 +79,6 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
             inFavs = true;
         }
 
-//        String[] projection = {MovieContract.MovieEntry._ID,
-//                MovieContract.MovieEntry.COLUMN_NAME_TITLE,
-//                MovieContract.MovieEntry.COLUMN_NAME_DESCRIPTION,
-//                MovieContract.MovieEntry.COLUMN_NAME_PHOTO};
-
         Map<String, String> params = new HashMap<>();
         params.put(Constants.PARAM_API_KEY, Constants.api_key);
 

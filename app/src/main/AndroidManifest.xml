@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
+        <service android:name=".services.NowPlayingIntentService"/>
         <activity android:name=".MainSectionActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>

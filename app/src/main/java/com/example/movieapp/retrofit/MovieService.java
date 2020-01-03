@@ -31,4 +31,10 @@ public interface MovieService {
 
     @GET("movie/{id}/similar")
     Call<JsonElement> getSimilar(@Path("id") int id, @QueryMap Map<String, String> options);
+
+    @GET("movie/upcoming")
+    Call<JsonElement> getUpcoming(@QueryMap Map<String, String> options);
+
+    @GET("movie/now_playing")
+    Call<JsonElement> getNowPlaying(@QueryMap Map<String, String> options);
 }
