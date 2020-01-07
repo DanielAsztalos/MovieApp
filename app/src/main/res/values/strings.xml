@@ -25,6 +25,7 @@
 
     <string name="changePic">Change profile picture</string>
     <string name="changePass">Change password</string>
+    <string name="logout">Log out</string>
     <string name="changePicSuccess">Successfully changed the profile picture!</string>
     <string name="changePicFail">Failed to change profile picture!</string>
     <string name="changePassSuccess">Successfully changed the password!</string>

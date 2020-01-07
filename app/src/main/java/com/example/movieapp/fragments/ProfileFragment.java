@@ -42,16 +42,13 @@ public class ProfileFragment extends Fragment {
         String path = sharedPreferences.getString("profile_path", "");
 
         ((TextView) rootview.findViewById(R.id.tv_name)).setText(username);
-        //Glide.with(this).load(path).into(((ImageView) rootview.findViewById(R.id.profile_image)));
 
-        if(path == "") {
+        if(path.equals("")) {
             ((CircleImageView) rootview.findViewById(R.id.profile_image)).setImageResource(R.drawable.blank_profile_picture_973460_1280);
         }
         else{
             ((CircleImageView) rootview.findViewById(R.id.profile_image)).setImageURI(Uri.parse(path));
         }
-
-
 
         return rootview;
     }

@@ -60,6 +60,8 @@ public class LoginAsyncTask extends AsyncTask<Void, Void, Boolean> {
         editor.putString("profile_path", cursor.getString(cursor.getColumnIndexOrThrow(UserContract.UserEntry.COLUMN_NAME_PROFILE)));
         editor.commit();
 
+        dbHelper.close();
+
         return true;
     }
 

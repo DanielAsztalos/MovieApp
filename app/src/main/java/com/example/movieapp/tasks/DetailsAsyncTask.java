@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.movieapp.R;
+import com.example.movieapp.adapters.ImagesAdapter;
 import com.example.movieapp.adapters.RelatedAdapter;
 import com.example.movieapp.contracts.FavoriteContract;
 import com.example.movieapp.contracts.MovieContract;
@@ -145,9 +146,8 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
             JsonArray results = new JsonArray();
             try{
                 results = response.getAsJsonObject().get("results").getAsJsonArray();
+                mMovie.getVideoIds().add(results.get(0).getAsJsonObject().get("key").getAsString());
             } catch (Exception e) {}
-
-            mMovie.getVideoIds().add(results.get(0).getAsJsonObject().get("key").getAsString());
         }
 
         try{
@@ -214,21 +214,20 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
             ((TextView) mDialog.findViewById(R.id.tv_description_detail)).setText(mMovie.getDescription());
 
-            if(mMovie.getImagePaths().size() > 0 ) {
-                for(String path: mMovie.getImagePaths()){
-                    ImageView imageView = (ImageView)getImageView();
-                    ((LinearLayout) mDialog.findViewById(R.id.imageGallery)).addView(imageView);
-                    Glide.with(mContext)
-                            .load("https://image.tmdb.org/t/p/w500/" + path)
-                            .into(imageView);
-                }
-            }
+            RecyclerView rv_images = mDialog.findViewById(R.id.rv_images);
+            LinearLayoutManager manager_images = new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
+            rv_images.setLayoutManager(manager_images);
+            ImagesAdapter adapter_images = new ImagesAdapter(mContext, mMovie);
+            rv_images.setAdapter(adapter_images);
 
             WebView video = ((WebView) mDialog.findViewById(R.id.video_details));
-            String playvideo = "<html> <body> <iframe width=\"300\" height=\"200\" src=\"https://www.youtube.com/embed/" + mMovie.getVideoIds().get(0)
-                    + "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></body></html>";
-            video.getSettings().setJavaScriptEnabled(true);
-            video.loadData(playvideo, "text/html", "utf-8");
+            if(mMovie.getVideoIds().size() > 0){
+                String playvideo = "<html> <body> <iframe width=\"350\" height=\"250\" src=\"https://www.youtube.com/embed/" + mMovie.getVideoIds().get(0)
+                        + "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></body></html>";
+                video.getSettings().setJavaScriptEnabled(true);
+                video.loadData(playvideo, "text/html", "utf-8");
+
+            }
 
             if(related.size() > 0) {
                 RecyclerView rv = mDialog.findViewById(R.id.rv_related);

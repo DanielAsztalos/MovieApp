@@ -22,9 +22,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TopMoviesAsyncTask extends AsyncTask<Integer, Void, ArrayList<Movie>> {
-    private Context mContext;
-    private int mPage;
-    private RecyclerView mRecyclerView;
+    protected Context mContext;
+    protected int mPage;
+    protected RecyclerView mRecyclerView;
 
     public TopMoviesAsyncTask(Context context, RecyclerView recyclerView) {
         mContext = context;

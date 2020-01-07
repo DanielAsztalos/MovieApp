@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
@@ -68,6 +69,9 @@ public class MainSectionActivity extends FragmentActivity {
         BottomNavigationView navigationView = findViewById(R.id.bnv_nav);
         navigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
+        Toast.makeText(getApplicationContext(), sharedPreferences.getString("id", ""), Toast.LENGTH_LONG).show();
+
         boolean alarmUp = (PendingIntent.getService(this, 0,
                 new Intent(this, NowPlayingIntentService.class),
                 PendingIntent.FLAG_NO_CREATE) != null);
@@ -115,5 +119,12 @@ public class MainSectionActivity extends FragmentActivity {
     public void onChangePassClicked(View view) {
         DialogFragment fragment = new ChangePassDialogFragment();
         fragment.show(getSupportFragmentManager(), "pass");
+    }
+
+    public void onLogoutClicked(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove("id").remove("username").remove("email").remove("profile_path").commit();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -15,6 +15,8 @@
         android:layout_height="match_parent"
         android:textColor="@color/white"
         android:background="@color/blackTransparent"
-        android:textSize="20sp"/>
+        android:paddingBottom="10sp"
+        android:paddingLeft="10dp"
+        android:textSize="24sp"/>
 
 </RelativeLayout>
