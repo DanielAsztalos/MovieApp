@@ -28,6 +28,11 @@ import java.util.Map;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This service downloads movies that were released no more than 3 days ago
+ * or will be released in no more than 3 days
+ */
+
 public class NowPlayingIntentService extends IntentService {
 
     public NowPlayingIntentService() {
@@ -36,9 +41,11 @@ public class NowPlayingIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        // get db instance
         AppDbHelper dbHelper = new AppDbHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        // delete the old InCinemas movies
         db.delete(CinemasContract.CinemasEntry.TABLE_NAME, null, null);
 
         Map<String, String> params = new HashMap<>();
@@ -49,11 +56,13 @@ public class NowPlayingIntentService extends IntentService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        // get movies
         MovieService service = retrofit.create(MovieService.class);
 
         int maxPage = 10;
         int page = 1;
         ArrayList<Movie> movie = new ArrayList<>();
+        // parse list of movies
         while (page < maxPage) {
             params.put(Constants.PARAM_PAGE, String.valueOf(page));
 
@@ -107,6 +116,7 @@ public class NowPlayingIntentService extends IntentService {
                         c.add(Calendar.DATE, 6);
                         d2 = c.getTime();
 
+                        // decide if the movies are eligible to be saved in the database
                         if(date.compareTo(d1) > 0 && date.compareTo(d2) < 0) {
                             toAdd = true;
                         }
@@ -115,6 +125,7 @@ public class NowPlayingIntentService extends IntentService {
                     }
 
                     if(toAdd) {
+                        // if yes save them
                         ContentValues cv = new ContentValues();
 
                         cv.put(MovieContract.MovieEntry._ID, String.valueOf(m.getId()));
