@@ -2,6 +2,10 @@ package com.example.movieapp.contracts;
 
 import android.provider.BaseColumns;
 
+/**
+ * This class defines the structure of the movie table in the database
+ */
+
 public final class MovieContract {
     private MovieContract(){}
 
