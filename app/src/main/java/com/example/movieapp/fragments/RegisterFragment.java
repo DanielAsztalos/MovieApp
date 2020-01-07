@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.movieapp.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment displays the register page
  */
 public class RegisterFragment extends Fragment {
     private View root;

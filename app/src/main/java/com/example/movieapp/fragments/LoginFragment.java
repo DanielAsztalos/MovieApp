@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.movieapp.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment displays the login page
  */
 public class LoginFragment extends Fragment {
 

@@ -14,7 +14,7 @@ import com.example.movieapp.R;
 import com.example.movieapp.tasks.InCinemasAsyncTask;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Display movies that are currently playing in cinemas
  */
 public class InCinemasFragment extends Fragment {
 
@@ -29,6 +29,7 @@ public class InCinemasFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_in_cinemas, container, false);
 
+        // add new movies to the recyclerview
         RecyclerView recyclerView = rootview.findViewById(R.id.rv_cinemas);
         InCinemasAsyncTask task = new InCinemasAsyncTask(getContext(), recyclerView);
         task.execute();

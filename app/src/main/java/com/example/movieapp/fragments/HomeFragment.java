@@ -21,7 +21,7 @@ import com.example.movieapp.tasks.TopMoviesAsyncTask;
 import com.example.movieapp.tasks.TopMoviesLoadMore;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Displays the homepage when the user is logged in
  */
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -43,11 +43,13 @@ public class HomeFragment extends Fragment {
         recyclerView = rootview.findViewById(R.id.rv_movies);
         page = 1;
 
+        // start task to fill the list with movies
         TopMoviesAsyncTask task = new TopMoviesAsyncTask(getContext(), (RecyclerView) rootview.findViewById(R.id.rv_movies));
         task.execute(page);
 
         search = false;
 
+        // load more movies if the user reaches a certain item in the list and add those movies to the list
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -65,6 +67,7 @@ public class HomeFragment extends Fragment {
 
         SearchView searchView = (SearchView) rootview.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // if search query submitted add results to the recyclerview
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(query.length() > 0){
@@ -74,6 +77,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
 
+            // if search query changed add results to the recyclerview
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText.length() > 0){
@@ -85,6 +89,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+        // if searchview gets closed load top movies into the recyclerview
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {

@@ -13,7 +13,7 @@ import com.example.movieapp.R;
 import com.example.movieapp.tasks.FavoritesAsyncTask;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment displays the favorite movies of a user
  */
 public class FavoritesFragment extends Fragment {
     private View rootview;
@@ -35,6 +35,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // start the task that adds the movies to the list
         FavoritesAsyncTask task = new FavoritesAsyncTask(getContext(), rootview.findViewById(R.id.rv_favorites));
         task.execute();
     }

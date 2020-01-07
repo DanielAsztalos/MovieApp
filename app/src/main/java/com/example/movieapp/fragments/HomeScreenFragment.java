@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.movieapp.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Home Screen
  */
 public class HomeScreenFragment extends Fragment {
 

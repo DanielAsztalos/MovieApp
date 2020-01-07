@@ -21,7 +21,7 @@ import com.example.movieapp.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment displays the profile page
  */
 public class ProfileFragment extends Fragment {
 
@@ -37,6 +37,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        // display username and profile picture if exists
         SharedPreferences sharedPreferences = rootview.getContext().getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");
         String path = sharedPreferences.getString("profile_path", "");
