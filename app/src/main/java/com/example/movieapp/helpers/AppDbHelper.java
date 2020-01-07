@@ -9,6 +9,10 @@ import com.example.movieapp.contracts.FavoriteContract;
 import com.example.movieapp.contracts.MovieContract;
 import com.example.movieapp.contracts.UserContract;
 
+/**
+ * This class does the CRUD functionality with the database
+ */
+
 public class AppDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "App.db";

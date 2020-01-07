@@ -1,5 +1,9 @@
 package com.example.movieapp.helpers;
 
+/**
+ * This class contains constants that can be accessed anywhere in the application
+ */
+
 public class Constants {
     private Constants() {}
 
