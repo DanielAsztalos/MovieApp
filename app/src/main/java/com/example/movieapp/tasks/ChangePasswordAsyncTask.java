@@ -16,6 +16,15 @@ import com.example.movieapp.helpers.AppDbHelper;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * This async task handles the saving of the new password to the db
+ * params:
+ *      context: the app context
+ *
+ * expects:
+ *      passes - the new and the old password
+ */
+
 public class ChangePasswordAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     private Context mContext;
@@ -40,6 +49,7 @@ public class ChangePasswordAsyncTask extends AsyncTask<String, Void, Boolean> {
         String selection = UserContract.UserEntry._ID + " = ? AND " + UserContract.UserEntry.COLUMN_NAME_PASSWORD + " = ? ";
         String[] selectionArgs = {sharedPreferences.getString("id", ""), oldPass};
 
+        // update password in the db
         int count = db.update(
                 UserContract.UserEntry.TABLE_NAME,
                 values,

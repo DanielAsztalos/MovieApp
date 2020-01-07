@@ -17,6 +17,13 @@ import com.example.movieapp.models.Movie;
 
 import java.util.ArrayList;
 
+/**
+ * This async task loads the movies that are playing in theatres and puts them into a recyclerview
+ * params:
+ *      context - app context
+ *      rv - the recyclerview that will contain the movies
+ */
+
 public class InCinemasAsyncTask extends AsyncTask<Void, Void, Void> {
     private Context mContext;
     private ArrayList<Movie> mMovies;

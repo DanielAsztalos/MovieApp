@@ -39,6 +39,16 @@ import java.util.Map;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This async task loads the details about a movie from TMDB and displays them
+ * params:
+ *      context - the app context
+ *      dialog - reference to the details dialog
+ *
+ * expects:
+ *      integers: id of the selected movie
+ */
+
 public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
     private Context mContext;
     private Dialog mDialog;
@@ -61,6 +71,7 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
         AppDbHelper dbHelper = new AppDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
+        // check if the movie is in favorite movies
         String[] projection = {FavoriteContract.FavoriteEntry.COLUMN_NAME_UID};
         String selection = FavoriteContract.FavoriteEntry.COLUMN_NAME_UID + " = ? AND " +
                 FavoriteContract.FavoriteEntry.COLUMN_NAME_MID + " = ? ";
@@ -91,13 +102,14 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
         MovieService service = retrofit.create(MovieService.class);
 
         JsonElement response = null;
-
+        // get data from TMDB
         try{
             response = service.getMovieDetails(mId, params).execute().body();
         }catch (Exception e) {
             Log.d("DETAILS", "doInBackground: " + e.getMessage());
         }
 
+        // parse data
         if(response != null) {
             JsonObject movie = new JsonObject();
             try {
@@ -119,12 +131,13 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
             mMovie.setVideoIds(new ArrayList<>());
         }
 
+        // get image paths for the movie
         try{
             response = service.getImages(mId, params).execute().body();
         }catch (Exception e) {
             Log.d("DETAILS", "doInBackground: " + e.getMessage());
         }
-
+        // parse them
         if(response != null) {
             JsonArray backdrops = new JsonArray();
             try{
@@ -135,13 +148,13 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
                 mMovie.getImagePaths().add(backdrops.get(i).getAsJsonObject().get("file_path").getAsString());
             }
         }
-
+        // get video paths of the movie
         try{
             response = service.getVideos(mId, params).execute().body();
         }catch (Exception e) {
             Log.d("DETAILS", "doInBackground: " + e.getMessage());
         }
-
+        // save
         if(response != null) {
             JsonArray results = new JsonArray();
             try{
@@ -149,13 +162,13 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
                 mMovie.getVideoIds().add(results.get(0).getAsJsonObject().get("key").getAsString());
             } catch (Exception e) {}
         }
-
+        // get related movies
         try{
             response = service.getSimilar(mId, params).execute().body();
         }catch (Exception e) {
             Log.d("DETAILS", "doInBackground: " + e.getMessage());
         }
-
+        // parse the results
         if(response != null) {
             JsonArray movies = new JsonArray();
             try{
@@ -199,27 +212,34 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
+        // if successful
         if(aBoolean) {
             if(inFavs) {
+                // if it's in the favorites db change icon of like button
                 ((FloatingActionButton) mDialog.findViewById(R.id.fab)).setImageResource(R.drawable.ic_star_black_24dp);
             }
 
+            // display movie title
             ((TextView) mDialog.findViewById(R.id.detail_title)).setText(mMovie.getTitle());
 
+            // load poster photo
             if(mMovie.getPathToPhoto() != null && mMovie.getPathToPhoto().length() > 0) {
                 Glide.with(mContext)
                         .load("https://image.tmdb.org/t/p/w500/" + mMovie.getPathToPhoto())
                         .into(((ImageView) mDialog.findViewById(R.id.img_poster_movie)));
             }
 
+            // display description text
             ((TextView) mDialog.findViewById(R.id.tv_description_detail)).setText(mMovie.getDescription());
 
+            // add images to the horizontal recyclerview
             RecyclerView rv_images = mDialog.findViewById(R.id.rv_images);
             LinearLayoutManager manager_images = new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
             rv_images.setLayoutManager(manager_images);
             ImagesAdapter adapter_images = new ImagesAdapter(mContext, mMovie);
             rv_images.setAdapter(adapter_images);
 
+            // add video to layout if there's at least one video
             WebView video = ((WebView) mDialog.findViewById(R.id.video_details));
             if(mMovie.getVideoIds().size() > 0){
                 String playvideo = "<html> <body> <iframe width=\"350\" height=\"250\" src=\"https://www.youtube.com/embed/" + mMovie.getVideoIds().get(0)
@@ -229,6 +249,7 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
             }
 
+            // add related movies to the layout
             if(related.size() > 0) {
                 RecyclerView rv = mDialog.findViewById(R.id.rv_related);
                 RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
@@ -238,15 +259,5 @@ public class DetailsAsyncTask extends AsyncTask<Integer, Void, Boolean> {
             }
         }
         super.onPostExecute(aBoolean);
-    }
-
-    private View getImageView() {
-        ImageView imageView = new ImageView(mContext);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, 0);
-        imageView.setLayoutParams(params);
-//        ((ImageView) imageView).setScaleType(ImageView.ScaleType.FIT_CENTER);
-        return imageView;
     }
 }

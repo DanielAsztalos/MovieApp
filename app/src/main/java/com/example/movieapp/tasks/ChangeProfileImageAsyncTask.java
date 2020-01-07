@@ -16,6 +16,15 @@ import com.example.movieapp.helpers.AppDbHelper;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * This async task handles the saving of the path to the new profile picture to the db
+ * params:
+ *      context - the context of the app
+ *
+ * expects:
+ *      string: new path to profile picture
+ */
+
 public class ChangeProfileImageAsyncTask extends AsyncTask<String, Void, Boolean> {
     private Context mContext;
     private String mPath;
@@ -34,11 +43,11 @@ public class ChangeProfileImageAsyncTask extends AsyncTask<String, Void, Boolean
 
         ContentValues values = new ContentValues();
         values.put(UserContract.UserEntry.COLUMN_NAME_PROFILE, mPath);
-        //Log.d("CHANGE", "doInBackground: " + sharedPreferences.getString("id", ""));
 
         String selection = UserContract.UserEntry._ID + " = ?";
         String[] selectionArgs = {sharedPreferences.getString("id", "")};
 
+        // update db
         int count = db.update(
                 UserContract.UserEntry.TABLE_NAME,
                 values,
@@ -55,7 +64,9 @@ public class ChangeProfileImageAsyncTask extends AsyncTask<String, Void, Boolean
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
+        // if successful
         if (aBoolean) {
+            // change image on profile page
             ((CircleImageView) ((Activity) mContext).findViewById(R.id.profile_image)).setImageURI(Uri.parse(mPath));
             Toast.makeText(mContext, R.string.changePicSuccess, Toast.LENGTH_LONG).show();
         }

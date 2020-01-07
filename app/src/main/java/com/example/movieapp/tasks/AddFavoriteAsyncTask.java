@@ -29,6 +29,16 @@ import java.util.Map;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This async task saves a movie that has been marked as favorite to the database
+ * params:
+ * * context - the application context
+ * * dialog - the dialog that called the task
+ *
+ * expects:
+ *  - integers: the ids of the movies that should be saved
+ */
+
 public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
     private Context mContext;
     private Dialog mDialog;
@@ -45,6 +55,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
 
+        // check if movie already exists in database
         String[] projection = {FavoriteContract.FavoriteEntry.COLUMN_NAME_UID};
         String selection = FavoriteContract.FavoriteEntry.COLUMN_NAME_UID + " = ? AND " +
                 FavoriteContract.FavoriteEntry.COLUMN_NAME_MID + " = ? ";
@@ -60,6 +71,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
                 null
         );
 
+        // if not
         if(cursor.getCount() == 0) {
             db = dbHelper.getWritableDatabase();
 
@@ -72,7 +84,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
                     .baseUrl("https://api.themoviedb.org/3/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-
+            // get details of the movie
             MovieService service = retrofit.create(MovieService.class);
 
             JsonElement response = null;
@@ -83,6 +95,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
                 Log.d("DETAILS", "doInBackground: " + e.getMessage());
             }
 
+            // parse response
             if(response != null) {
                 JsonObject movie = new JsonObject();
                 try {
@@ -98,6 +111,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
                 selected.setPathToPhoto(movie.get("poster_path").getAsString());
             }
 
+            // save it to the db
             ContentValues values = new ContentValues();
             values.put(MovieContract.MovieEntry._ID, selected.getId());
             values.put(MovieContract.MovieEntry.COLUMN_NAME_TITLE, selected.getTitle());
@@ -109,7 +123,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
                     null,
                     values
             );
-
+            // save movie as a favorite
             values = new ContentValues();
             values.put(FavoriteContract.FavoriteEntry.COLUMN_NAME_UID, sharedPreferences.getString("id", ""));
             values.put(FavoriteContract.FavoriteEntry.COLUMN_NAME_MID, selected.getId());
@@ -120,6 +134,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
             return true;
         }
         else{
+            // delete movie from favorites
             selection = FavoriteContract.FavoriteEntry.COLUMN_NAME_UID + " = ? AND " +
                     FavoriteContract.FavoriteEntry.COLUMN_NAME_MID + " = ?";
             String[] selectionArgs1 = {sharedPreferences.getString("id", ""), String.valueOf(mId)};
@@ -135,6 +150,7 @@ public class AddFavoriteAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean bool) {
+        // change the icon of the like button
         FloatingActionButton fab = mDialog.findViewById(R.id.fab);
         if(bool) {
             fab.setImageResource(R.drawable.ic_star_black_24dp);

@@ -19,6 +19,14 @@ import com.example.movieapp.models.Movie;
 
 import java.util.ArrayList;
 
+/**
+ * This async task loads the favorite movies from the database and displays them in the favorites list
+ * params:
+ *      context - app context
+ *      rv - the recyclerview that will contain the favorite movies
+ *
+ */
+
 public class FavoritesAsyncTask extends AsyncTask<Void, Void, Void> {
     private Context mContext;
     private ArrayList<Movie> mMovies;
@@ -90,6 +98,7 @@ public class FavoritesAsyncTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aBoolean) {
+        // add favorite movies to the recyclerview
         RecyclerView.LayoutManager manager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
         MoviesAdapter adapter = new MoviesAdapter(mContext, mMovies);

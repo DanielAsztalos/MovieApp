@@ -24,6 +24,16 @@ import java.util.Map;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This async task gets the results to a search query from TMDB
+ * params:
+ *      context: app context
+ *      recyclerView: the recyclerview from the homepage
+ *
+ * expects:
+ *      keyword: search query
+ */
+
 public class SearchAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
     private Context mContext;
     private String mWord;
@@ -53,6 +63,7 @@ public class SearchAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
         MovieService service = retrofit.create(MovieService.class);
 
         JsonElement response = null;
+        // get results to the search query
         try{
             response = service.searchResult(params).execute().body();
 
@@ -62,6 +73,7 @@ public class SearchAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
             Log.d("TOP_MOVIES", "doInBackground: " + e.getMessage());
         }
 
+        // parse results
         if(response != null) {
             JsonArray movies = new JsonArray();
             try{
@@ -104,6 +116,7 @@ public class SearchAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
 
     @Override
     protected void onPostExecute(ArrayList<Movie> movies) {
+        // if there are results put them in the recyclerview
         if (movies != null ){
             RecyclerView.LayoutManager movieLayoutManager = new LinearLayoutManager(mContext);
             mRecyclerView.setLayoutManager(movieLayoutManager);

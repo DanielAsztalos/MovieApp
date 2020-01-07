@@ -14,6 +14,14 @@ import com.example.movieapp.R;
 import com.example.movieapp.contracts.UserContract;
 import com.example.movieapp.helpers.AppDbHelper;
 
+/**
+ * This async task handles the login functionality
+ * params:
+ *      - context: app context
+ *      - username: the username that the user typed in
+ *      - password
+ */
+
 public class LoginAsyncTask extends AsyncTask<Void, Void, Boolean> {
     private Context mContext;
     private String mUserName;
@@ -46,12 +54,15 @@ public class LoginAsyncTask extends AsyncTask<Void, Void, Boolean> {
                 null
         );
 
+        // if there's no user with the given username + pass combination
         if(cursor.getCount() < 1) {
+            // login failed
             return false;
         }
 
         cursor.moveToFirst();
 
+        // save user data to shared preferences
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("id", String.valueOf(cursor.getInt(cursor.getColumnIndexOrThrow(UserContract.UserEntry._ID))));
@@ -70,6 +81,7 @@ public class LoginAsyncTask extends AsyncTask<Void, Void, Boolean> {
         if(aBoolean) {
             Toast.makeText(mContext, R.string.loginSuccess, Toast.LENGTH_LONG).show();
 
+            // navigate to the home screen
             Intent intent = new Intent(mContext, MainSectionActivity.class);
             mContext.startActivity(intent);
         }

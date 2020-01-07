@@ -21,6 +21,13 @@ import java.util.Map;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This async task loads the top rated movies from TMDB
+ * params:
+ *      context: the context of the app
+ *      recyclerview: the rv that will contain the movies
+ */
+
 public class TopMoviesAsyncTask extends AsyncTask<Integer, Void, ArrayList<Movie>> {
     protected Context mContext;
     protected int mPage;
@@ -49,6 +56,7 @@ public class TopMoviesAsyncTask extends AsyncTask<Integer, Void, ArrayList<Movie
         MovieService service = retrofit.create(MovieService.class);
 
         JsonElement response = null;
+        // get top rated
         try{
             response = service.topRated(params).execute().body();
 
@@ -58,6 +66,7 @@ public class TopMoviesAsyncTask extends AsyncTask<Integer, Void, ArrayList<Movie
             Log.d("TOP_MOVIES", "doInBackground: " + e.getMessage());
         }
 
+        // parse results
         if(response != null) {
             JsonArray movies = new JsonArray();
             try{
@@ -100,6 +109,7 @@ public class TopMoviesAsyncTask extends AsyncTask<Integer, Void, ArrayList<Movie
 
     @Override
     protected void onPostExecute(ArrayList<Movie> movies) {
+        // display results
         if (movies != null ){
             RecyclerView.LayoutManager movieLayoutManager = new LinearLayoutManager(mContext);
             mRecyclerView.setLayoutManager(movieLayoutManager);

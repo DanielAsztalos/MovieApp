@@ -16,6 +16,15 @@ import com.example.movieapp.fragments.LoginFragment;
 import com.example.movieapp.helpers.AppDbHelper;
 import com.example.movieapp.models.User;
 
+/**
+ * This async task handles the register functionality
+ * params:
+ *      context: app context
+ *
+ * expects:
+ *      user: data that should be saved to the db
+ */
+
 public class RegisterAsyncTask extends AsyncTask<User, Void, Boolean> {
     private boolean where = true;
     private Context mContext;
@@ -31,6 +40,7 @@ public class RegisterAsyncTask extends AsyncTask<User, Void, Boolean> {
         AppDbHelper dbHelper = new AppDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
+        // check if username was used
         String[] projection1 = {BaseColumns._ID};
         String selection1 = UserContract.UserEntry.COLUMN_NAME_USERNAME + " = ? ";
         String[] selectionArgs1 = {user.getUsername()};
@@ -44,6 +54,7 @@ public class RegisterAsyncTask extends AsyncTask<User, Void, Boolean> {
             return false;
         }
 
+        // check if email was used
         String[] projection2 = {BaseColumns._ID};
         String selection2 = UserContract.UserEntry.COLUMN_NAME_EMAIL + " = ? ";
         String[] selectionArgs2 = {user.getEmail()};
@@ -61,6 +72,7 @@ public class RegisterAsyncTask extends AsyncTask<User, Void, Boolean> {
 
         db = dbHelper.getWritableDatabase();
 
+        // save data to db
         ContentValues values = new ContentValues();
         values.put(UserContract.UserEntry.COLUMN_NAME_USERNAME, user.getUsername());
         values.put(UserContract.UserEntry.COLUMN_NAME_EMAIL, user.getEmail());
@@ -76,6 +88,7 @@ public class RegisterAsyncTask extends AsyncTask<User, Void, Boolean> {
         if(success) {
             Toast.makeText(mContext, R.string.registerSuccessful, Toast.LENGTH_LONG).show();
             if(mContext instanceof MainActivity) {
+                // load the login fragment
                 ((MainActivity) mContext).loadFragment(new LoginFragment());
             }
         }
