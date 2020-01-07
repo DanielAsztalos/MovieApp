@@ -36,6 +36,7 @@ import java.util.List;
 
 public class MainSectionActivity extends FragmentActivity {
 
+    // define fragments to load when a navigation item is selected
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -70,12 +71,13 @@ public class MainSectionActivity extends FragmentActivity {
         navigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         SharedPreferences sharedPreferences = getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
-        Toast.makeText(getApplicationContext(), sharedPreferences.getString("id", ""), Toast.LENGTH_LONG).show();
 
+        // check if a NowPlayingService is running
         boolean alarmUp = (PendingIntent.getService(this, 0,
                 new Intent(this, NowPlayingIntentService.class),
                 PendingIntent.FLAG_NO_CREATE) != null);
 
+        // if not then start one
         if(!alarmUp) {
             Intent intent = new Intent(this, NowPlayingIntentService.class);
             PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
@@ -97,6 +99,7 @@ public class MainSectionActivity extends FragmentActivity {
         transaction.commit();
     }
 
+    // open image picker to select new profile image
     public void onChangeProfileClicked(View view){
         ImagePicker.create(this)
                 .returnMode(ReturnMode.ALL)
@@ -104,11 +107,13 @@ public class MainSectionActivity extends FragmentActivity {
                 .start();
     }
 
+    // when image was selected
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             Image image = ImagePicker.getFirstImageOrNull(data);
             if(image != null) {
+                // execute ChangeProfileImage async task
                 ChangeProfileImageAsyncTask task = new ChangeProfileImageAsyncTask(this);
                 task.execute(image.getPath());
             }
@@ -116,11 +121,13 @@ public class MainSectionActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    // open pass change dialog
     public void onChangePassClicked(View view) {
         DialogFragment fragment = new ChangePassDialogFragment();
         fragment.show(getSupportFragmentManager(), "pass");
     }
 
+    // logout
     public void onLogoutClicked(View view) {
         SharedPreferences sharedPreferences = getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
         sharedPreferences.edit().remove("id").remove("username").remove("email").remove("profile_path").commit();

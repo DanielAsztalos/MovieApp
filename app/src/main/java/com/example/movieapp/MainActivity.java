@@ -27,12 +27,14 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // if user is logged in redirect to the MainSectionActivity
         SharedPreferences sharedPreferences = getSharedPreferences("LOGGED_USER", Context.MODE_PRIVATE);
         if(!sharedPreferences.getString("id", "").equals("")){
             Intent intent = new Intent(getApplicationContext(), MainSectionActivity.class);
             startActivity(intent);
         }
 
+        // load HomeScreenFragment
         Fragment newFragment = new HomeScreenFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -43,14 +45,17 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    // load login screen
     public void toLoginScreen(View view) {
         loadFragment(new LoginFragment());
     }
 
+    // load register screen
     public void toRegisterScreen(View view) {
         loadFragment(new RegisterFragment());
     }
 
+    // this helper function gets a fragment and loads it
     public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -60,6 +65,7 @@ public class MainActivity extends FragmentActivity {
         transaction.commit();
     }
 
+    // if login action is initiated
     public void loginClicked(View view) {
         String username = ((EditText) findViewById(R.id.et_username_login)).getText().toString();
         if(username.length() == 0) {
@@ -77,6 +83,7 @@ public class MainActivity extends FragmentActivity {
         task.execute();
     }
 
+    // register initiated
     public void registerClicked(View view) {
         String username = ((EditText) findViewById(R.id.et_username_register)).getText().toString();
         if(username.length() == 0) {
