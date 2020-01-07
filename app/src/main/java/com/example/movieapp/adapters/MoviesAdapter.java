@@ -22,6 +22,14 @@ import com.example.movieapp.models.Movie;
 
 import java.util.ArrayList;
 
+/**
+ * This adapter is responsible for displaying the cards of the movies
+ * in Home, Favorite and InCinemas fragments
+ * params:
+ * *context - the context of the application
+ * *movies - the movies to display
+ */
+
 public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
     private ArrayList<Movie> mMovies;
     private Context mContext;
@@ -71,6 +79,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         return mMovies.size();
     }
 
+    // This function opens the details dialog for the selected movie
     private void openDetails(int position){
         DetailDialog dialog = new DetailDialog();
         FragmentTransaction ft = ((MainSectionActivity) mContext).getSupportFragmentManager().beginTransaction();

@@ -15,6 +15,14 @@ import com.example.movieapp.models.Movie;
 
 import java.util.ArrayList;
 
+/**
+ * This adapter is responsible for displaying the images of a movie on the details page
+ * in a horizontal scrollview
+ * params:
+ * * context - the context of the application
+ * * movie - the movie whose images should be displayed
+ */
+
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesViewHolder> {
     private Context mContext;
     private Movie mMovie;

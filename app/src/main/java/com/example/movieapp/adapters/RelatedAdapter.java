@@ -21,6 +21,14 @@ import com.example.movieapp.models.Movie;
 
 import java.util.ArrayList;
 
+/**
+ * This adapter is responsible of displaying an image and a title for each related movie
+ * of a selected movie in a horizontal recyclerview inside the details screen
+ * params:
+ * *context - the Application context
+ * *movies - the related movies list to display
+ */
+
 public class RelatedAdapter extends RecyclerView.Adapter<RelatedViewHolder> {
     private Context mContext;
     private ArrayList<Movie> mMovies;
@@ -58,6 +66,7 @@ public class RelatedAdapter extends RecyclerView.Adapter<RelatedViewHolder> {
         return mMovies.size();
     }
 
+    // This function opens the details dialog for the selected movie
     private void openDetails(int position){
         DetailDialog dialog = new DetailDialog();
         FragmentTransaction ft = ((MainSectionActivity) mContext).getSupportFragmentManager().beginTransaction();
