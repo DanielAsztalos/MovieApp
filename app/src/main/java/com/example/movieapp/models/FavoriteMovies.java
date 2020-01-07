@@ -1,9 +1,5 @@
 package com.example.movieapp.models;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity(primaryKeys = {"user_id", "movie_id"})
 public class FavoriteMovies {
 
     private int user_id;

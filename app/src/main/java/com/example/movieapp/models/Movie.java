@@ -6,21 +6,15 @@ import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 
-@Entity
 public class Movie {
-    @PrimaryKey
     private int id;
 
-    @ColumnInfo(name = "title")
     private String title;
 
-    @ColumnInfo(name = "description")
     private String description;
 
-    @ColumnInfo(name = "path_to_photo")
     private String pathToPhoto;
 
-    @ColumnInfo(name = "release_date")
     private long releaseDate;
 
     private ArrayList<String> imagePaths;
