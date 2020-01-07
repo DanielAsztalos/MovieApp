@@ -21,7 +21,7 @@ import com.example.movieapp.helpers.Encrypt;
 import com.example.movieapp.tasks.ChangePasswordAsyncTask;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This DialogFragment is displayed when a user clicks on the change password button
  */
 public class ChangePassDialogFragment extends DialogFragment {
 
@@ -31,14 +31,17 @@ public class ChangePassDialogFragment extends DialogFragment {
     }
 
     private void changePass() {
+        // get old and new passwords
         String oldPass = ((EditText) getDialog().findViewById(R.id.et_pass_old)).getText().toString();
         String newPass = ((EditText) getDialog().findViewById(R.id.et_pass_new)).getText().toString();
 
+        // if new password is too short display error message
         if(newPass.length() < 6) {
             Toast.makeText(getContext(), R.string.passShort, Toast.LENGTH_LONG).show();
             return;
         }
 
+        // run the password change task
         ChangePasswordAsyncTask task = new ChangePasswordAsyncTask(getActivity());
         task.execute(Encrypt.md5(newPass), Encrypt.md5(oldPass));
     }

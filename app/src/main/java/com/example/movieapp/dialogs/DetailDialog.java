@@ -17,11 +17,16 @@ import com.example.movieapp.tasks.AddFavoriteAsyncTask;
 import com.example.movieapp.tasks.DetailsAsyncTask;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+/**
+ * This dialog displays the details about a selected movie
+ */
+
 public class DetailDialog extends DialogFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // make it a fullscreen dialog
         setStyle(DialogFragment.STYLE_NORMAL, R.style.FullScreenDialog);
     }
 
@@ -32,10 +37,12 @@ public class DetailDialog extends DialogFragment {
 
         View view = inflater.inflate(R.layout.dialog_detail, container, false);
 
+        // get the id of the selected movie than get it from TMDB
         int id = getArguments().getInt("id");
         DetailsAsyncTask task = new DetailsAsyncTask(getContext(), getDialog());
         task.execute(id);
 
+        // set toolbar close icon
         Toolbar toolbar = view.findViewById(R.id.toolbar_detail);
         toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -45,6 +52,7 @@ public class DetailDialog extends DialogFragment {
             }
         });
 
+        // save movie to favorites on floating like button click
         FloatingActionButton btn = view.findViewById(R.id.fab);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +70,7 @@ public class DetailDialog extends DialogFragment {
         super.onStart();
 
         Dialog dialog = getDialog();
+        // make the dialog expand to the full size of the window
         if(dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
